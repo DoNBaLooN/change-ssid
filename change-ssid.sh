@@ -38,14 +38,21 @@ echo "5 GHz   -> $SSID_5G"
 echo "System description set to: $SSID_2G"
 echo -e "\033[32mNew MAC address for WAN: $NEW_MAC\033[0m"
 
+# Restart podkop service
+echo -e "\033[34mRestarting podkop service...\033[0m"
+/etc/init.d/podkop restart
+
+# Wait before DNS check
+echo -e "\033[34mWaiting 15 seconds for podkop to initialize...\033[0m"
+sleep 15
+
 # Check podkop functionality
-echo -e "\033[34mChecking podkop status...\033[0m"
+echo -e "\033[34mPerforming DNS check to verify podkop status...\033[0m"
 TEST_DOMAIN=$(grep 'TEST_DOMAIN=' /usr/bin/podkop | cut -d'"' -f2)
 
 if [ -z "$TEST_DOMAIN" ]; then
   echo -e "\033[31mError: Failed to extract TEST_DOMAIN from /usr/bin/podkop\033[0m"
 else
-  sleep 3
   NSLOOKUP_OUTPUT=$(nslookup -timeout=2 "$TEST_DOMAIN" 127.0.0.42 2>&1)
   if echo "$NSLOOKUP_OUTPUT" | grep -q "Address:.*198\.18\."; then
     echo -e "\033[32mPodkop is working: $TEST_DOMAIN resolved to 198.18.x.x\033[0m"
