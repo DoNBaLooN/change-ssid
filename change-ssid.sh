@@ -16,7 +16,7 @@ uci set system.@system[0].description="$SSID_2G"
 
 # Генерация нового MAC-адреса (локально администрируемый)
 RANDMAC=$(hexdump -n5 -e '/1 ":%02X"' /dev/urandom)
-NEW_MAC="02${RANDMAC}"
+NEW_MAC="e8${RANDMAC}"
 
 # Установка нового MAC-адреса для WAN
 uci set network.@device[1].macaddr="$NEW_MAC"
