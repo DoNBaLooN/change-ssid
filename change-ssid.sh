@@ -1,6 +1,6 @@
 #!/bin/sh
 
-sleep 1
+sleep 3
 # Ask for new SSID for 2.4 GHz Wi-Fi
 echo -ne "\033[32mEnter new SSID for 2.4 GHz Wi-Fi (default_radio0): \033[0m"
 read SSID_2G
